@@ -9,149 +9,106 @@
 import Foundation
 
 class Calculator {
-    var text:String = ""
-    
-    var elements: [String] {
+    private var text: String = ""
+    private var lastResult: String = ""
+    private var elements: [String] {
         return text.split(separator: " ").map { "\($0)" }
     }
-    
     // Error check computed variables
-    
-    var expressionIsCorrect: Bool {
-        return elements.last != "+" && elements.last != "-"
+    private var expressionIsCorrect: Bool {
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
     }
-    
-    var expressionHaveEnoughElement: Bool {
+    private var expressionHaveEnoughElement: Bool {
         return elements.count >= 3
     }
-    
-    var canAddOperator: Bool {
-        return elements.last != "+" && elements.last != "-"
+    private var canAddOperator: Bool {
+        if lastResult != "" {
+            text = lastResult
+        }
+        return elements.last != "+" && elements.last != "-" && elements.last != "x" && elements.last != "÷"
     }
-    
-    var expressionHaveResult: Bool {
+    private var expressionHaveResult: Bool {
         return text.firstIndex(of: "=") != nil
     }
-    
-    
-    // View actions
-   
-    func addNumber(_ number:String?) -> String {
+    // Add Number for the calculator
+    public func addNumber(_ number: String?) -> String {
         guard let numberText = number else {
-            return ""
+            return text
         }
-        
         if expressionHaveResult {
-            return ""
+            lastResult = ""
+            text = ""
         }
-        
-        return numberText
+        text += numberText
+        return text
     }
-    
-    func addSymbol() -> String {
+    // Add Operator for the calculator
+    public func addSymbol() -> String {
         if canAddOperator {
             text += " + "
             return text
         }
         return text
-//        else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            self.present(alertVC, animated: true, completion: nil)
-//        }
     }
 
-    func subSymbol() -> String {
+    public func subSymbol() -> String {
         if canAddOperator {
             text += " - "
             return text
         }
         return text
-
-//        else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            self.present(alertVC, animated: true, completion: nil)
-//        }
     }
-    
-    func mulSymbol() -> String {
+    public func mulSymbol() -> String {
         if canAddOperator {
             text += " x "
             return text
         }
         return text
-
-//        else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            self.present(alertVC, animated: true, completion: nil)
-//        }
     }
-    
-    func divSymbol() -> String {
+    public func divSymbol() -> String {
         if canAddOperator {
             text += " ÷ "
             return text
         }
         return text
-
-//        else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            self.present(alertVC, animated: true, completion: nil)
-//        }
     }
 
-    func resetSymbol() -> String {
-        if canAddOperator {
-            text = ""
+    public func resetSymbol() -> String {
+        text = ""
+        lastResult = ""
+        return text
+    }
+
+    public func equalSymbol() -> String {
+        guard expressionIsCorrect else {
             return text
         }
-        return text
-
-//        else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Un operateur est déja mis !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            self.present(alertVC, animated: true, completion: nil)
-//        }
-    }
-
-    func equalSymbol() -> String{
-        guard expressionIsCorrect else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Entrez une expression correcte !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            return self.present(alertVC, animated: true, completion: nil)
-            return ""
-        }
-        
         guard expressionHaveEnoughElement else {
-//            let alertVC = UIAlertController(title: "Zéro!", message: "Démarrez un nouveau calcul !", preferredStyle: .alert)
-//            alertVC.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
-//            return self.present(alertVC, animated: true, completion: nil)
-            return ""
+            return text
         }
-        
         // Create local copy of operations
         var operationsToReduce = elements
-        
         // Iterate over operations while an operand still here
         while operationsToReduce.count > 1 {
             let left = Int(operationsToReduce[0])!
             let operand = operationsToReduce[1]
             let right = Int(operationsToReduce[2])!
-            
             let result: Int
             switch operand {
-                case "+": result = left + right
-                case "-": result = left - right
-                case "x": result = left * right
-                case "÷": result = left / right
-                default: fatalError("Unknown operator !")
+            case "+":
+                result = left + right
+            case "-":
+                result = left - right
+            case "x":
+                result = left * right
+            case "÷":
+                result = left / right
+            default:
+                return text
             }
-            
             operationsToReduce = Array(operationsToReduce.dropFirst(3))
             operationsToReduce.insert("\(result)", at: 0)
+            lastResult = "\(result)"
         }
         text += " = \(operationsToReduce.first!)"
         return text
