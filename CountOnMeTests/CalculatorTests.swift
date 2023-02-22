@@ -100,7 +100,7 @@ final class CalculatorTests: XCTestCase {
         XCTAssert( text == "4.0 ÷ 2 = 2.0")
     }
     func testEqualSymbol_WithAnAddOfNumberWithAPreviousResult() {
-        var text = "1 + 1 = 2"
+        var text = ""
         text = calculator.addNumber("2")
         text = calculator.addSymbol()
         text = calculator.addNumber("2")
@@ -123,12 +123,20 @@ final class CalculatorTests: XCTestCase {
         XCTAssert(text == "2 ÷ 2 = 1.0")
     }
     func testDivSymbol_WithAnAddOfNumberWithAPreviousResult() {
-        var text = "1 + 1 = 2"
+        var text = ""
         text = calculator.addNumber("2")
         text = calculator.divSymbol()
         text = calculator.addNumber("2")
         text = calculator.equalSymbol()
         XCTAssert(text == "2 ÷ 2 = 1.0")
+    }
+    func testDivSymbol() {
+        var text = ""
+        text = calculator.addNumber("1")
+        text = calculator.divSymbol()
+        text = calculator.addNumber("2")
+        text = calculator.equalSymbol()
+        XCTAssert(text == "1 ÷ 2 = 0.5")
     }
     func testDifficultComputation() {
         var text = ""
@@ -171,17 +179,17 @@ final class CalculatorTests: XCTestCase {
         XCTAssert(text == "Non divisible par 0")
     }
     func testAddNumberAfterZeroError() {
-        var text = "Non divisible par 0"
+        var text = ""
         text = calculator.addNumber("2")
         XCTAssert(text == "2")
     }
     func testAddSymbolAfterZeroError() {
-        var text = "Non divisible par 0"
+        var text = ""
         text = calculator.addSymbol()
         XCTAssert(text == "")
     }
     func testAddSymbolSubAfterZeroError() {
-        var text = "Non divisible par 0"
+        var text = ""
         text = calculator.subSymbol()
         XCTAssert(text == " - ")
     }
@@ -221,6 +229,22 @@ final class CalculatorTests: XCTestCase {
         text = calculator.equalSymbol()
         text = calculator.subSymbol()
         XCTAssert(text == " - ")
+    }
+    func testAddSymbolInCumputeLeftAndNotNumber() {
+        var text = ""
+        text = calculator.addNumber("a")
+        text = calculator.addSymbol()
+        text = calculator.addNumber("1")
+        text = calculator.equalSymbol()
+        XCTAssert(text == "a + 1 = 0.0")
+    }
+    func testAddSymbolInCumputeRightAndNotNumber() {
+        var text = ""
+        text = calculator.addNumber("1")
+        text = calculator.addSymbol()
+        text = calculator.addNumber("b")
+        text = calculator.equalSymbol()
+        XCTAssert(text == "1 + b = 0.0")
     }
     func testAddNumberGuard() {
         var text = ""

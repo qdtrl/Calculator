@@ -48,7 +48,7 @@
 		1FA43BF4224E569A00F565CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3C73FB19298ADE51003B8089 /* Calculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Calculator.swift; sourceTree = "<group>"; };
 		3C73FB1C2992C17B003B8089 /* CalculatorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = CalculatorTests.swift; path = CountOnMeTests/CalculatorTests.swift; sourceTree = SOURCE_ROOT; };
-		3C73FB1E2992CE71003B8089 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/qdt/Documents/Dev/OPC/ameliorer-une-application-existante/Calculator/CountOnMe/Info.plist"; sourceTree = "<absolute>"; };
+		3C73FB1E2992CE71003B8089 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = "/Users/qdt/Documents/Dev/OPC/ameliorer-une-application-existante/Dubut-Touroul_Quentin_1_code_source_022023/CountOnMe/Info.plist"; sourceTree = "<absolute>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
